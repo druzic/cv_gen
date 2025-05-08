@@ -22,6 +22,10 @@ model = st.sidebar.radio(
 )
 st.sidebar.write("Tvoj odabir:", model)
 
+if st.sidebar.button("Nova sesija"):
+    st.session_state.messages = []
+    st.rerun()
+
 # session state for chat
 if "messages" not in st.session_state:
     st.session_state.messages = []
