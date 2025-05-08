@@ -42,7 +42,8 @@ if prompt:
     with st.chat_message("user"):
         st.write(prompt)
 
-    response = get_response(prompt, model)
-    st.session_state.messages.append({"role": "assistant", "content": response})
     with st.chat_message("assistant"):
-        st.markdown(response)
+        response_stream = get_response(prompt, model)
+        full_response = st.write_stream(response_stream)
+
+    st.session_state.messages.append({"role": "assistant", "content": full_response})

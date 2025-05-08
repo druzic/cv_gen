@@ -1,51 +1,63 @@
-# utils.py
 from api_clients import openai_client, grok_client, groq_client
 
-def get_response(prompt: str, model: str) -> str:
+def get_response(prompt: str, model: str):
+    system_msg = {
+        "role": "system",
+        "content": "Talk in Croatian. You are a helpful assistant specializing in creating resumes."
+    }
+    user_msg = {"role": "user", "content": prompt}
+
     if model == "OpenAI":
         if not openai_client:
-            return "Greška: API ključ za OpenAI nije postavljen."
+            yield "Greška: API ključ za OpenAI nije postavljen."
+            return
         try:
-            resp = openai_client.chat.completions.create(
+            stream = openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant specializing in creating resumes."},
-                    {"role": "user",   "content": prompt},
-                ],
+                messages=[system_msg, user_msg],
+                stream=True,
             )
-            return resp.choices[0].message.content
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
         except Exception as e:
-            return f"Greška sa OpenAI API: {e}"
+            yield f"Greška sa OpenAI API: {e}"
+            return
 
     elif model == "Grok":
         if not grok_client:
-            return "Greška: API ključ za xAI (Grok) nije postavljen."
+            yield "Greška: API ključ za xAI (Grok) nije postavljen."
+            return
         try:
-            resp = grok_client.chat.completions.create(
+            stream = grok_client.chat.completions.create(
                 model="grok-2-latest",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant specializing in creating resumes."},
-                    {"role": "user",   "content": prompt},
-                ],
+                messages=[system_msg, user_msg],
+                stream=True,
             )
-            return resp.choices[0].message.content
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
         except Exception as e:
-            return f"Greška sa xAI API: {e}"
+            yield f"Greška sa xAI API: {e}"
+            return
 
     elif model == "Groq":
         if not groq_client:
-            return "Greška: API ključ za Groq nije postavljen."
+            yield "Greška: API ključ za Groq nije postavljen."
+            return
         try:
-            resp = groq_client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[
-                    {"role": "system", "content": "Talk in Croatian. You are a helpful assistant specializing in creating resumes."},
-                    {"role": "user",   "content": prompt},
-                ],
+            stream = groq_client.chat.completions.create(
+                model="llama3-70b-8192",
+                messages=[system_msg, user_msg],
+                stream=True,
             )
-            return resp.choices[0].message.content
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
         except Exception as e:
-            return f"Greška sa Groq API: {e}"
+            yield f"Greška sa Groq API: {e}"
+            return
 
     else:
-        return "Odaberi model."
+        yield "Odaberi model."
+        return
