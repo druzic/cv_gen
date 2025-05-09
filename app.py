@@ -18,7 +18,7 @@ st.sidebar.title("Postavke")
 model = st.sidebar.radio(
     "Koji model želite koristiti?",
     ["OpenAI", "Groq", "Grok"],
-    index=0,
+    index=1,
 )
 st.sidebar.write("Tvoj odabir:", model)
 
@@ -43,7 +43,8 @@ if prompt:
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        response_stream = get_response(prompt, model)
+        response_stream = get_response(st.session_state.messages, model)
+
         full_response = st.write_stream(response_stream)
 
     st.session_state.messages.append({"role": "assistant", "content": full_response})

@@ -1,11 +1,16 @@
 from api_clients import openai_client, grok_client, groq_client
 
-def get_response(prompt: str, model: str):
+def load_prompt(path="prompts/cv_agent.txt"):
+    with open(path, "r", encoding="utf-8") as file:
+        return file.read()
+
+def get_response(messages: list, model: str):
     system_msg = {
         "role": "system",
-        "content": "Talk in Croatian. You are a helpful assistant specializing in creating resumes."
+        "content": load_prompt(),
     }
-    user_msg = {"role": "user", "content": prompt}
+
+    full_messages = [system_msg] + messages
 
     if model == "OpenAI":
         if not openai_client:
@@ -14,7 +19,7 @@ def get_response(prompt: str, model: str):
         try:
             stream = openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[system_msg, user_msg],
+                messages=full_messages,
                 stream=True,
             )
             for chunk in stream:
@@ -31,7 +36,7 @@ def get_response(prompt: str, model: str):
         try:
             stream = grok_client.chat.completions.create(
                 model="grok-2-latest",
-                messages=[system_msg, user_msg],
+                messages=full_messages,
                 stream=True,
             )
             for chunk in stream:
@@ -48,7 +53,7 @@ def get_response(prompt: str, model: str):
         try:
             stream = groq_client.chat.completions.create(
                 model="llama3-70b-8192",
-                messages=[system_msg, user_msg],
+                messages=full_messages,
                 stream=True,
             )
             for chunk in stream:
