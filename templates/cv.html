@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<title>Životopis</title>
+<style>
+body {
+    margin: 1in;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    color: #000;
+}
+
+header {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+header .left {
+    float: left;
+    width: 60%;
+}
+
+header .right {
+    float: right;
+    width: 35%;
+    text-align: right;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28pt;
+}
+
+section {
+    margin-top: 30px;
+}
+
+section > h2 {
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 14pt;
+}
+
+.subheading {
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 12pt;
+}
+
+.period {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.period .left {
+    float: left;
+    width: 70%;
+}
+
+.period .right {
+    float: right;
+    width: 25%;
+    text-align: right;
+    font-size: 11pt;
+}
+
+ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.skills-table td {
+    vertical-align: top;
+    padding: 5px;
+}
+</style>
+</head>
+<body>
+
+<!--  OSOBNI PODACI  -->
+<header>
+  <div class="left">
+    <h1>{{ full_name }}</h1>
+  </div>
+  <div class="right">
+    <p>
+      <a href="mailto:{{ email }}">{{ email }}</a><br>
+      {{ phone }}
+    </p>
+  </div>
+</header>
+
+<!--  OBRAZOVANJE  -->
+<section>
+<h2>Obrazovanje</h2>
+{% for edu in education %}
+<div class="period">
+  <div class="left">
+    <p class="subheading">{{ edu.institution }}</p>
+    <p><strong>{{ edu.degree }}</strong></p>
+    {% if edu.description %}<p>{{ edu.description }}</p>{% endif %}
+  </div>
+  <div class="right">
+    {{ edu.start_date }} &ndash; {{ edu.end_date }}
+  </div>
+</div>
+{% endfor %}
+</section>
+
+<!--  RADNO ISKUSTVO  -->
+<section>
+<h2>Radno iskustvo</h2>
+{% for job in experience %}
+<div class="period">
+  <div class="left">
+    <p class="subheading">{{ job.company }}</p>
+    <p><strong>{{ job.position }}</strong></p>
+    {% if job.description %}<p>{{ job.description }}</p>{% endif %}
+  </div>
+  <div class="right">
+    {{ job.start_date }} &ndash; {{ job.end_date }}
+  </div>
+</div>
+{% endfor %}
+</section>
+
+<!--  VJEŠTINE  -->
+<section>
+<h2>Vještine</h2>
+<ul>
+{% for skill in skills %}
+  <li>{{ skill }}</li>
+{% endfor %}
+</ul>
+</section>
+
+<!--  JEZICI  -->
+<section>
+<h2>Jezici</h2>
+<ul>
+{% for language in languages %}
+  <li>{{ language }}</li>
+{% endfor %}
+</ul>
+</section>
+
+<!--  PROJEKTI  -->
+{% if projects %}
+<section>
+<h2>Projekti</h2>
+{% for prj in projects %}
+<div class="period">
+  <div class="left">
+    <p class="subheading">{{ prj.title }}</p>
+    <p>{{ prj.description }}</p>
+  </div>
+</div>
+{% endfor %}
+</section>
+{% endif %}
+
+<!--  INTERESI  -->
+{% if interests %}
+<section>
+<h2>Interesi i hobiji</h2>
+<ul>
+{% for interest in interests %}
+  <li>{{ interest }}</li>
+{% endfor %}
+</ul>
+</section>
+{% endif %}
+
+</body>
+</html>
