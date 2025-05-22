@@ -1,4 +1,3 @@
-# api_clients.py
 from openai import OpenAI
 from groq import Groq
 from config import OPENAI_API_KEY, XAI_API_KEY, GROQ_API_KEY

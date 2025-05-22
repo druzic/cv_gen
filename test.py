@@ -1,4 +1,3 @@
-# test_data.py (ili direktno u app.py)
 test_cv_answers = [
     {"role": "user", "content": "Dominik Ružić"},
     {"role": "assistant", "content": "Koji je vaš email?"},

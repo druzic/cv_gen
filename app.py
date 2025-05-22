@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from config import check_keys
 from utils import get_response
@@ -9,7 +8,6 @@ from test import test_cv_answers
 st.set_page_config(page_title="Generator životopisa", page_icon="📝")
 st.title("Implementacija konverzacijskog agenta za generiranje životopisa")
 
-# check for missing keys
 missing = check_keys()
 if missing:
     for svc in missing:
@@ -31,8 +29,8 @@ if st.sidebar.button("🧪 Testiraj moj životopis"):
     st.rerun()
 
 
-if st.sidebar.button("Nova sesija"):
-    st.session_state.messages = []
+if st.sidebar.button("♻️ Nova sesija"):
+    st.session_state.clear()
     st.rerun()
 
 # session state for chat
@@ -46,6 +44,12 @@ for msg in st.session_state.messages:
 
 # new user input
 prompt = st.chat_input("Recite nešto…")
+
+if st.session_state.get("test_mode"):
+    print("Testiranje")
+    prompt = "  "  # dummy input da pokrene AI logiku
+    st.session_state["test_mode"] = False
+
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -53,7 +57,6 @@ if prompt:
 
     with st.chat_message("assistant"):
         response_stream = get_response(st.session_state.messages, model)
-
         #full_response = st.write_stream(response_stream)
         buffer= ""
 
@@ -62,24 +65,31 @@ if prompt:
 
 
         try:
+
             cv_data = json.loads(buffer)
             st.session_state["cv_json"] = cv_data
+            st.write("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
+            st.session_state.messages.append({"role": "assistant", "content": "✅ Uspješno prikupljeni svi podaci! Generiram životopis..."})
             # session state prebaciti data
             #print(cv_data)
-            st.success("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
             pdf_bytes = generate_pdf(cv_data)
+
             st.session_state["cv_pdf"] = pdf_bytes
-            if "cv_pdf" in st.session_state:
+
+
+            #funkcija za generiranje životopisa
+        except json.JSONDecodeError:
+            st.markdown(buffer)
+            st.session_state.messages.append({"role": "assistant", "content": buffer})
+
+    # JSON poruka
+    # st.session_state.messages.append({"role": "assistant", "content": buffer})
+
+if "cv_pdf" in st.session_state:
                 st.download_button(
                 label="📄 Preuzmi životopis",
                 data=st.session_state["cv_pdf"],
                 file_name="zivotopis.pdf",
                 mime="application/pdf"
-    )
+            )
 
-            #funkcija za generiranje životopisa
-        except json.JSONDecodeError:
-            st.markdown(buffer)
-        else:
-            pass
-    st.session_state.messages.append({"role": "assistant", "content": buffer})
