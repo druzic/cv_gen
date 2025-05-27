@@ -47,15 +47,16 @@ model = st.sidebar.radio(
 )
 st.sidebar.write("Tvoj odabir:", model)
 
-if st.sidebar.button("🧪 Testiraj moj životopis"):
-    st.session_state.messages = test_cv_answers
-    st.session_state["test_mode"] = True
-    st.rerun()
-
-
 if st.sidebar.button("♻️ Nova sesija"):
     st.session_state.clear()
     st.rerun()
+
+if st.sidebar.button("🧪 Testiraj moj životopis"):
+    st.session_state.clear()
+    st.session_state["messages"] = test_cv_answers.copy()
+    st.session_state["test_mode"] = True
+    st.rerun()
+
 
 # session state for chat
 if "messages" not in st.session_state:

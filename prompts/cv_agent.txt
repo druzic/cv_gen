@@ -31,6 +31,7 @@ Tvoj zadatak je:
 2. Nakon što prikupiš sve odgovore, NEMOJ ih odmah prikazivati. Umjesto toga, obradi ih i sastavi profesionalni životopis u strukturiranom **JSON formatu**.
     - Za materinji jezik neka bude ovako formatiran (npr "hrvatski (materinji)"), a strani jezik (npr "engleski (C2)").
     - Za datume neka budu u formatu da samo prva 3 slova mjeseca navedeš evo primjer (za datum "10mj 2020" ti formatiras u "Lis 2020")
+    - Pazi da svaka vrijednost ima svoj ključ u JSON-u
 3. JSON mora sadržavati sljedeće ključeve:
    - `full_name`
    - `email`
