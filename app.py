@@ -42,7 +42,7 @@ else:
 st.sidebar.title("Postavke")
 model = st.sidebar.radio(
     "Koji model želite koristiti?",
-    ["OpenAI", "Groq", "Grok"],
+    ["OpenAI", "Groq", "Grok (xAI)"],
     index=1,
 )
 st.sidebar.write("Tvoj odabir:", model)
@@ -51,11 +51,34 @@ if st.sidebar.button("♻️ Nova sesija"):
     st.session_state.clear()
     st.rerun()
 
-if st.sidebar.button("🧪 Testiraj moj životopis"):
+if st.sidebar.button("🧪 Testiraj aplikaciju"):
     st.session_state.clear()
     st.session_state["messages"] = test_cv_answers.copy()
     st.session_state["test_mode"] = True
     st.rerun()
+
+st.sidebar.markdown("### 🎨 Odabir predložaka (NE RADI JOŠ)")
+
+cols = st.sidebar.columns(3)
+
+templates = {
+    "Klasični": "templates/testslika.png",
+    "Moderni": "templates/testslika2.png",
+    "Skupi": "templates/testslika2.png"
+}
+
+if "template" not in st.session_state:
+    st.session_state.template = "Klasični"
+
+for i, (name, img_path) in enumerate(templates.items()):
+    with cols[i]:
+        st.image(img_path, use_container_width=True, caption=name)
+        if st.button(f"{name}"):
+            st.session_state.template = name
+
+st.sidebar.success(f"✅ Trenutni predložak: {st.session_state.template}")
+
+
 
 
 # session state for chat
@@ -92,15 +115,16 @@ if prompt:
         try:
 
             cv_data = json.loads(buffer)
-            st.session_state["cv_json"] = cv_data
             st.write("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
+            st.session_state["cv_json"] = cv_data
+
             st.session_state.messages.append({"role": "assistant", "content": "✅ Uspješno prikupljeni svi podaci! Generiram životopis..."})
             # session state prebaciti data
             #print(cv_data)
             progress = st.progress(0, text="Generiram PDF...")
             pdf_bytes = generate_pdf(cv_data)
             progress.progress(100, text="PDF generiran!")
-
+            print(buffer)
             st.session_state["cv_pdf"] = pdf_bytes
 
 

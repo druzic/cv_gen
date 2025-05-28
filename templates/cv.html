@@ -92,11 +92,14 @@ ul {
 <header>
   <div class="left">
     <h1>{{ full_name }}</h1>
+      <p>{{ address }}</p>
+
   </div>
   <div class="right">
     <p>
       <a href="mailto:{{ email }}">{{ email }}</a><br>
       {{ phone }}
+
     </p>
   </div>
 </header>
@@ -109,7 +112,7 @@ ul {
   <div class="left">
     <p class="subheading">{{ edu.institution }}</p>
     <p><strong>{{ edu.degree }}</strong></p>
-    {% if edu.description %}<p>{{ edu.description }}</p>{% endif %}
+    {% if edu.description %}<p>• relevantni kolegiji: {{ edu.description }}</p>{% endif %}
   </div>
   <div class="right">
     {{ edu.start_date }} &ndash; {{ edu.end_date }}

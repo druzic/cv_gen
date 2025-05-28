@@ -29,7 +29,7 @@ def get_response(messages: list, model: str):
             yield f"Greška sa OpenAI API: {e}"
             return
 
-    elif model == "Grok":
+    elif model == "Grok (xAI)":
         if not grok_client:
             yield "Greška: API ključ za xAI (Grok) nije postavljen."
             return
@@ -52,7 +52,7 @@ def get_response(messages: list, model: str):
             return
         try:
             stream = groq_client.chat.completions.create(
-                model="llama3-70b-8192",
+                model="llama-3.3-70b-versatile",
                 messages=full_messages,
                 stream=True,
             )
