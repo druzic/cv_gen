@@ -98,7 +98,8 @@ ul {
   <div class="right">
     <p>
       <a href="mailto:{{ email }}">{{ email }}</a><br>
-      {{ phone }}
+      {{ phone }}<br>
+      {% if github %}<a href="{{ github }}">{{ github }}</a>{% endif %}
 
     </p>
   </div>
@@ -140,13 +141,32 @@ ul {
 
 <!--  VJEŠTINE  -->
 <section>
-<h2>Vještine</h2>
-<ul>
-{% for skill in skills %}
-  <li>{{ skill }}</li>
-{% endfor %}
-</ul>
+  <h2>Tehničke vještine</h2>
+
+  {% if technical_skills.napredno %}
+    <h3>Napredno</h3>
+    <ul>
+      {% for category, skills in technical_skills.napredno.items() %}
+        {% if skills %}
+          <li><strong>{{ category | capitalize }}</strong> – {{ skills | join(', ') }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if technical_skills.osnovno %}
+    <h3>Ostalo</h3>
+    <ul>
+      {% for category, skills in technical_skills.osnovno.items() %}
+        {% if skills %}
+          <li><strong>{{ category | capitalize }}</strong> – {{ skills | join(', ') }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% endif %}
 </section>
+
+
 
 <!--  JEZICI  -->
 <section>
@@ -166,7 +186,7 @@ ul {
 <div class="period">
   <div class="left">
     <p class="subheading">{{ prj.title }}</p>
-    <p>{{ prj.description }}</p>
+    <li>{{ prj.description }}</li>
   </div>
 </div>
 {% endfor %}
@@ -174,16 +194,35 @@ ul {
 {% endif %}
 
 <!--  INTERESI  -->
-{% if interests %}
 <section>
-<h2>Interesi i hobiji</h2>
-<ul>
-{% for interest in interests %}
-  <li>{{ interest }}</li>
-{% endfor %}
-</ul>
+  <h2>Ostale vještine i interesi</h2>
+  <table class="skills-table">
+    {% if social_skills %}
+    <tr>
+      <td>Socijalne</td>
+      <td>{{ social_skills }}</td>
+    </tr>
+    {% endif %}
+
+    {% if languages %}
+    <tr>
+      <td>Jezici</td>
+      <td>
+        {% for lang in languages %}
+          {{ lang }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+      </td>
+    </tr>
+    {% endif %}
+
+    {% if interests %}
+    <tr>
+      <td>Interesi</td>
+      <td>{{ interests }}</td>
+    </tr>
+    {% endif %}
+  </table>
 </section>
-{% endif %}
 
 </body>
 </html>

@@ -113,8 +113,10 @@ if prompt:
 
 
         try:
-
+            print("1")
+            print(buffer)
             cv_data = json.loads(buffer)
+            print("2")
             st.write("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
             st.session_state["cv_json"] = cv_data
 
