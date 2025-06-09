@@ -118,19 +118,17 @@ if prompt:
             cv_data = json.loads(buffer)
             print("2")
             st.write("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
+            progress = st.progress(0, text="Generiram PDF...")
             st.session_state["cv_json"] = cv_data
 
             st.session_state.messages.append({"role": "assistant", "content": "✅ Uspješno prikupljeni svi podaci! Generiram životopis..."})
-            # session state prebaciti data
             #print(cv_data)
-            progress = st.progress(0, text="Generiram PDF...")
             pdf_bytes = generate_pdf(cv_data)
             progress.progress(100, text="PDF generiran!")
             print(buffer)
             st.session_state["cv_pdf"] = pdf_bytes
 
 
-            #funkcija za generiranje životopisa
         except json.JSONDecodeError:
             st.markdown(buffer)
             st.session_state.messages.append({"role": "assistant", "content": buffer})

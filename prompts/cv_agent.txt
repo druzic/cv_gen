@@ -42,7 +42,7 @@ Tvoj zadatak je:
     - Kod opisa radnog mjesta dodaj da bude makar rečenica (15ak riječi) i da odgovara toj poziciji i firmi znači proširi da ima teksta
     - Kod naziva firme za radno mjesto ako se radi o stučnoj praksi dodaj nakon naziva firme "- stručna praksa"
     - Tehničke vještine korisnik unosi podijeljene na dvije razine: napredno i osnovno. Na temelju tih dviju listi, automatski kategoriziraj vještine u
-      tematske grupe kao što su web, cloud, python, android, oop, tools, ostalo, itd. Svaka od tih grupa neka bude ključ u JSON-u unutar
+      tematske grupe kao što su web, cloud, python, android, oop, ostalo, itd. Svaka od tih grupa neka bude ključ u JSON-u unutar
       technical_skills.napredno i technical_skills.osnovno. Ako neka vještina ne pripada nijednoj poznatoj grupi, stavi je pod ostalo.
 3. JSON mora sadržavati sljedeće ključeve:
    - `full_name`

@@ -18,7 +18,7 @@ def get_response(messages: list, model: str):
             return
         try:
             stream = openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4.1-mini-2025-04-14",
                 messages=full_messages,
                 stream=True,
             )
@@ -35,7 +35,7 @@ def get_response(messages: list, model: str):
             return
         try:
             stream = grok_client.chat.completions.create(
-                model="grok-2-latest",
+                model="grok-3",
                 messages=full_messages,
                 stream=True,
             )
