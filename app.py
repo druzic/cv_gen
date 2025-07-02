@@ -3,7 +3,6 @@ from config import check_keys
 from utils import get_response
 import json
 from pdf_generator import generate_pdf
-from test import test_cv_answers
 
 if "show_expander" not in st.session_state:
     st.session_state["show_expander"] = True
@@ -51,11 +50,6 @@ if st.sidebar.button("♻️ Nova sesija"):
     st.session_state.clear()
     st.rerun()
 
-if st.sidebar.button("🧪 Testiraj aplikaciju"):
-    st.session_state.clear()
-    st.session_state["messages"] = test_cv_answers.copy()
-    st.session_state["test_mode"] = True
-    st.rerun()
 
 st.sidebar.markdown("### 🎨 Odabir predložaka (NE RADI JOŠ)")
 
@@ -92,6 +86,7 @@ for msg in st.session_state.messages:
 
 # new user input
 prompt = st.chat_input("Recite nešto…")
+
 st.session_state["show_expander"] = False
 if st.session_state.get("test_mode"):
     print("Testiranje")
@@ -113,21 +108,15 @@ if prompt:
 
 
         try:
-            print("1")
-            print(buffer)
             cv_data = json.loads(buffer)
-            print("2")
             st.write("✅ Uspješno prikupljeni svi podaci! Generiram životopis...")
             progress = st.progress(0, text="Generiram PDF...")
             st.session_state["cv_json"] = cv_data
 
             st.session_state.messages.append({"role": "assistant", "content": "✅ Uspješno prikupljeni svi podaci! Generiram životopis..."})
-            #print(cv_data)
             pdf_bytes = generate_pdf(cv_data)
             progress.progress(100, text="PDF generiran!")
-            print(buffer)
             st.session_state["cv_pdf"] = pdf_bytes
-
 
         except json.JSONDecodeError:
             st.markdown(buffer)
