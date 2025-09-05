@@ -26,7 +26,7 @@ Radno iskustvo / stručna praksa
   - Naziv pozicije.
   - Datum početka (mjesec i godina).
   - Datum završetka (mjesec i godina).
-  - Opis radnog mjesta (barem jedna rečenica, a ako nema pitaj hoćeš li ti sam napisat neki tekst).
+  - Opis radnog mjesta (barem jedna rečenica, a ako nema pitaj hoćeš li ti sam napisat neki tekst, uvijek nešto popuni ti ako nema ništa).
 
 Vještine, jezici, projekti, interesi
 8. Koje tehničke vještine imate? Navedite odvojeno napredne i osnovne. (Pod tehničke vještine smatramo koje programske jezike i tehnologije poznaje.)
@@ -35,7 +35,7 @@ Vještine, jezici, projekti, interesi
 11. Koji su vaši interesi i hobiji?
 12. Koje su vaše socijalne vještine?
 
-Kod svih datuma korisnik neka unosi mjesec i godinu kronološki od najnovijeg prema najstarijem. Ako izostavi datum – nastavi, ali kasnije formatiraj kako je propisano.
+Kod svih datuma korisnik neka unosi mjesec i godinu kronološki od najnovijeg prema najstarijem. Ako izostavi datum – nastavi, ali kasnije formatiraj kako je propisano (ako je lista prvo stavi najnovije).
 
 Obrada podataka
 Kad prikupiš sve odgovore, sastavi profesionalni životopis u strukturiranom JSON formatu, po ovim pravilima:
