@@ -53,21 +53,22 @@ if st.sidebar.button("♻️ Nova sesija"):
 
 st.sidebar.markdown("### 🎨 Odabir predložaka")
 
-cols = st.sidebar.columns(3)
-
-templates = {
-    "Klasični": "templates/testslika.png",
-    "Moderni": "templates/testslika5.png",
-    "Dva stupca": "templates/testslika4.png"
+template_options = {
+    "Klasični": {"image": "templates/testslika.png", "file": "cv.html"},
+    "Moderni": {"image": "templates/testslika5.png", "file": "modern.html"},
+    "Dva stupca": {"image": "templates/testslika4.png", "file": "two_column.html"},
 }
+
+cols = st.sidebar.columns(len(template_options))
+
 
 if "template" not in st.session_state:
     st.session_state.template = "Klasični"
 
-for i, (name, img_path) in enumerate(templates.items()):
+for i, (name, info) in enumerate(template_options.items()):
     with cols[i]:
-        st.image(img_path, use_container_width=True, caption=name)
-        if st.button(f"{name}"):
+        st.image(info["image"], use_container_width=True, caption=name)
+        if st.button(name):
             st.session_state.template = name
 
 st.sidebar.success(f"✅ Trenutni predložak: {st.session_state.template}")
@@ -114,7 +115,8 @@ if prompt:
             st.session_state["cv_json"] = cv_data
 
             st.session_state.messages.append({"role": "assistant", "content": "✅ Uspješno prikupljeni svi podaci! Generiram životopis..."})
-            pdf_bytes = generate_pdf(cv_data)
+            template_file = template_options[st.session_state.template]["file"]
+            pdf_bytes = generate_pdf(cv_data, template_file)
             progress.progress(100, text="PDF generiran!")
             st.session_state["cv_pdf"] = pdf_bytes
 

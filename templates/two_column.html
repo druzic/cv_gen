@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<title>Životopis</title>
+<style>
+body {
+  margin:0;
+  font-family:'Calibri', sans-serif;
+  color:#2C3E50;
+}
+.container {
+  display:grid;
+  grid-template-columns:30% 70%;
+  min-height:100vh;
+}
+.sidebar {
+  background:#2C3E50;
+  color:#fff;
+  padding:40px 25px;
+}
+.sidebar h1 {
+  font-size:28pt;
+  margin-bottom:10px;
+}
+.sidebar a {
+  color:#fff;
+}
+.sidebar h2 {
+  font-size:16pt;
+  text-transform:uppercase;
+  margin-top:30px;
+  border-bottom:2px solid #1ABC9C;
+  color:#1ABC9C;
+  padding-bottom:5px;
+}
+.main {
+  background:#f7f7f7;
+  padding:40px;
+}
+section {
+  margin-bottom:30px;
+}
+section h2 {
+  color:#1ABC9C;
+  border-bottom:2px solid #1ABC9C;
+  text-transform:uppercase;
+  font-size:16pt;
+  margin-bottom:10px;
+}
+.item {
+  margin-bottom:20px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="sidebar">
+    <h1>{{ full_name }}</h1>
+    <p>{{ address }}</p>
+    <p><a href="mailto:{{ email }}">{{ email }}</a><br>{{ phone }}{% if github %}<br><a href="https://{{ github }}">{{ github }}</a>{% endif %}</p>
+    {% if advance_skills or basic_skills %}
+    <h2>Vještine</h2>
+    {% if advance_skills %}
+    <h3>Napredno</h3>
+    <ul>
+    {% for skill in advance_skills %}
+      <li>{{ skill }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% if basic_skills %}
+    <h3>Ostalo</h3>
+    <ul>
+    {% for skill in basic_skills %}
+      <li>{{ skill }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endif %}
+  </div>
+  <div class="main">
+    <section>
+      <h2>Obrazovanje</h2>
+      {% for edu in education %}
+      <div class="item">
+        <p><strong>{{ edu.institution }}</strong> - {{ edu.degree }}<br>{{ edu.start_date }} – {{ edu.end_date }}</p>
+        {% if edu.description %}<p>• {{ edu.description }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </section>
+
+    <section>
+      <h2>Radno iskustvo</h2>
+      {% for job in experience %}
+      <div class="item">
+        <p><strong>{{ job.company }}</strong> - {{ job.position }}<br>{{ job.start_date }} – {{ job.end_date }}</p>
+        {% if job.description %}<p>{{ job.description }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </section>
+
+    {% if projects %}
+    <section>
+      <h2>Projekti</h2>
+      {% for prj in projects %}
+      <div class="item">
+        <p><strong>{{ prj.title }}</strong> - {{ prj.description }}</p>
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <section>
+      <h2>Ostale vještine i interesi</h2>
+      <table>
+        {% if social_skills %}
+        <tr><td><strong>Socijalne</strong></td><td>{{ social_skills }}</td></tr>
+        {% endif %}
+        {% if languages %}
+        <tr><td><strong>Jezici</strong></td><td>{% for lang in languages %}{{ lang }}{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+        {% endif %}
+        {% if interests %}
+        <tr><td><strong>Interesi</strong></td><td>{{ interests }}</td></tr>
+        {% endif %}
+      </table>
+    </section>
+  </div>
+</div>
+</body>
+</html>
